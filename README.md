@@ -2,8 +2,6 @@
 
 **Operius Mobile** es una adaptación no oficial del aclamado juego arcade **Operius**, diseñado originalmente para el navegador Opera GX. Esta versión busca llevar la frenética acción de disparos espaciales a dispositivos móviles, conservando su estilo retro y su desafío infinito.
 
-![Operius Logo](https://operius.fandom.com/wiki/File:Operius_Logo.png)
-
 ## 🎮 Descripción
 
 La Tierra ha perdido su conexión a Internet. Una nave alienígena flota sobre el planeta y depende de ti, el piloto, abrirte paso disparando a través de oleadas de enemigos para restaurar la red. Ahora, con controles táctiles y optimización móvil, puedes salvar el mundo desde tu smartphone.
