@@ -4,13 +4,11 @@ using System.Collections;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
-    public Transform center;  // El centro del spawn, que puede ser el "túnel"
-    public float radius = 5f;  // Radio de aparición
-    public float spawnZOffset = -30f;  // Posición en Z para el spawn
-    public float minSpawnDelay = 1.5f;  // Intervalo mínimo de spawn
-    public float maxSpawnDelay = 3f;  // Intervalo máximo de spawn
-    public int minEnemiesPerWave = 3;  // Enemigos por ola
-    public int maxEnemiesPerWave = 6;  // Enemigos por ola máxima
+    public Transform center;
+    public float radius = 5f;
+    public float spawnZOffset = -30f;
+    public float spawnInterval = 0.4f;
+    public int enemiesPerWave = 5;
 
     void Start()
     {
@@ -21,27 +19,30 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            SpawnEnemyWave();
-            float delay = Random.Range(minSpawnDelay, maxSpawnDelay);  // Espera aleatoria
-            yield return new WaitForSeconds(delay);
+            StartCoroutine(SpawnEnemyLine());
+            yield return new WaitForSeconds(Random.Range(2f, 4f));
         }
     }
 
-    void SpawnEnemyWave()
+    IEnumerator SpawnEnemyLine()
     {
-        int enemyCount = Random.Range(minEnemiesPerWave, maxEnemiesPerWave + 1);  // Número aleatorio de enemigos por ola
-        float baseAngle = Random.Range(0f, 360f);  // Ángulo base para los enemigos
+        float baseAngle = Random.Range(0f, 360f);
 
-        for (int i = 0; i < enemyCount; i++)
+        for (int i = 0; i < enemiesPerWave; i++)
         {
-            float angle = baseAngle + (360f / enemyCount) * i;  // Distribuir enemigos en un círculo
-            float rad = angle * Mathf.Deg2Rad;
+            float rad = baseAngle * Mathf.Deg2Rad;
             Vector3 dir = new Vector3(Mathf.Sin(rad), Mathf.Cos(rad), 0f);
-            Vector3 pos = center.position + dir * radius + Vector3.forward * spawnZOffset;
+            Vector3 spawnPos = center.position + dir * radius + Vector3.forward * spawnZOffset;
 
-            GameObject enemy = Instantiate(enemyPrefab, pos, Quaternion.identity);
-            enemy.transform.LookAt(center.position + Vector3.forward * 10f);  // Mirar hacia el centro
-            Destroy(enemy, 10f);  // Destruir después de 10 segundos
+            GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+
+            OrbitalEnemy enemyScript = enemy.GetComponent<OrbitalEnemy>();
+            enemyScript.center = center;
+            enemyScript.radius = radius;
+            enemyScript.angularSpeed = 90f;
+            enemyScript.forwardSpeed = 5f;
+
+            yield return new WaitForSeconds(spawnInterval);
         }
     }
 }
