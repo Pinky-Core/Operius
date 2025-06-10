@@ -479,10 +479,10 @@ MonoBehaviour:
   radius: 5
   spawnZOffset: -40
   initialDelay: 3
-  minDelayBetweenWaves: 2
-  maxDelayBetweenWaves: 4
+  minDelayBetweenWaves: 3
+  maxDelayBetweenWaves: 6
   enemiesPerWave: 5
-  zSpacing: 2
+  zSpacing: 1.5
   spawnDelayBetweenEnemies: 0.2
 --- !u!1 &1686671269
 GameObject:
@@ -611,9 +611,13 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6791783953159264853, guid: 6f1de046ce61ae241a9d696a5ae4ddc5, type: 3}
+      propertyPath: forwardSpeed
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6968202082736608686, guid: 6f1de046ce61ae241a9d696a5ae4ddc5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.787403
+      value: -120.7
       objectReference: {fileID: 0}
     - target: {fileID: 6968202082736608686, guid: 6f1de046ce61ae241a9d696a5ae4ddc5, type: 3}
       propertyPath: m_LocalPosition.y

@@ -7,28 +7,28 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemyPrefab;
     public Transform center;
 
-    [Header("Radio y Posición Inicial")]
+    [Header("Radio y Posiciï¿½n Inicial")]
     public float radius = 5f;
     public float spawnZOffset = -30f;
 
-    [Header("Configuración de Oleadas")]
+    [Header("Configuraciï¿½n de Oleadas")]
     [Tooltip("Tiempo antes de que aparezca la primera oleada.")]
     public float initialDelay = 3f;
 
-    [Tooltip("Tiempo mínimo entre oleadas.")]
+    [Tooltip("Tiempo mï¿½nimo entre oleadas.")]
     public float minDelayBetweenWaves = 2f;
 
-    [Tooltip("Tiempo máximo entre oleadas.")]
+    [Tooltip("Tiempo mï¿½ximo entre oleadas.")]
     public float maxDelayBetweenWaves = 4f;
 
     [Space(10)]
-    [Header("Configuración de Enemigos")]
+    [Header("Configuraciï¿½n de Enemigos")]
     public int enemiesPerWave = 5;
 
-    [Tooltip("Separación entre enemigos en Z.")]
+    [Tooltip("Separaciï¿½n entre enemigos en Z.")]
     public float zSpacing = 2f;
 
-    [Tooltip("Delay entre aparición de enemigos en una fila.")]
+    [Tooltip("Delay entre apariciï¿½n de enemigos en una fila.")]
     public float spawnDelayBetweenEnemies = 0.3f;
 
 
@@ -70,7 +70,7 @@ public class EnemySpawner : MonoBehaviour
             enemyScript.angularSpeed = 90f;
             enemyScript.forwardSpeed = 5f;
 
-            // Aquí agregamos el delay entre la aparición de cada enemigo
+            // Aquï¿½ agregamos el delay entre la apariciï¿½n de cada enemigo
             yield return new WaitForSeconds(spawnDelayBetweenEnemies);
         }
     }
