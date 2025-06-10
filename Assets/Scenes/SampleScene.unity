@@ -478,8 +478,10 @@ MonoBehaviour:
   center: {fileID: 1686671270}
   radius: 5
   spawnZOffset: -40
-  baseSpawnInterval: 0.5
-  baseEnemiesPerWave: 3
+  spawnInterval: 2
+  enemiesPerWave: 5
+  zSpacing: 2
+  spawnDelayBetweenEnemies: 0.3
 --- !u!1 &1686671269
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,6 +605,10 @@ PrefabInstance:
       propertyPath: center
       value: 
       objectReference: {fileID: 1686671270}
+    - target: {fileID: 6791783953159264853, guid: 6f1de046ce61ae241a9d696a5ae4ddc5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6968202082736608686, guid: 6f1de046ce61ae241a9d696a5ae4ddc5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -15.787403
@@ -613,7 +619,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6968202082736608686, guid: 6f1de046ce61ae241a9d696a5ae4ddc5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.5532393
+      value: 138.9
       objectReference: {fileID: 0}
     - target: {fileID: 6968202082736608686, guid: 6f1de046ce61ae241a9d696a5ae4ddc5, type: 3}
       propertyPath: m_LocalRotation.w

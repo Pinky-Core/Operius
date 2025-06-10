@@ -7,9 +7,11 @@ public class EnemySpawner : MonoBehaviour
     public Transform center;
     public float radius = 5f;
     public float spawnZOffset = -30f;
+    public float spawnInterval = 0.4f;  // ya no se usa para espaciado entre enemigos
+    public int enemiesPerWave = 5;
+    public float zSpacing = 2f;
+    public float spawnDelayBetweenEnemies = 0.3f;
 
-    public float baseSpawnInterval = 0.5f;
-    public int baseEnemiesPerWave = 3;
 
     void Start()
     {
@@ -20,44 +22,33 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            float difficulty = DifficultyManager.Instance.difficultyMultiplier;
-
-            int enemiesThisWave = Mathf.RoundToInt(baseEnemiesPerWave * difficulty);
-            float interval = baseSpawnInterval / difficulty;
-
-            StartCoroutine(SpawnEnemyLine(enemiesThisWave, interval));
-            yield return new WaitForSeconds(Random.Range(2f, 4f) / difficulty);
+            float baseAngle = Random.Range(0f, 360f);
+            yield return StartCoroutine(SpawnEnemyLine(baseAngle));
+            yield return new WaitForSeconds(Random.Range(2f, 4f));
         }
     }
 
-    IEnumerator SpawnEnemyLine(int count, float interval)
+    IEnumerator SpawnEnemyLine(float angle)
     {
-        float baseAngle = Random.Range(0f, 360f);
+        float rad = angle * Mathf.Deg2Rad;
+        Vector3 dir = new Vector3(Mathf.Sin(rad), Mathf.Cos(rad), 0f);
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < enemiesPerWave; i++)
         {
-            float rad = baseAngle * Mathf.Deg2Rad;
-            Vector3 dir = new Vector3(Mathf.Sin(rad), Mathf.Cos(rad), 0f);
-            Vector3 spawnPos = center.position + dir * radius + Vector3.forward * spawnZOffset;
+            float zOffset = spawnZOffset - i * zSpacing;
+            Vector3 spawnPos = center.position + dir * radius + Vector3.forward * zOffset;
 
             GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
-            var script = enemy.GetComponent<OrbitalEnemy>();
 
-            script.center = center;
-            script.radius = radius;
-            script.angularSpeed = Random.Range(60f, 120f);
-            script.forwardSpeed = Random.Range(4f, 7f) * DifficultyManager.Instance.difficultyMultiplier;
+            OrbitalEnemy enemyScript = enemy.GetComponent<OrbitalEnemy>();
+            enemyScript.center = center;
+            enemyScript.radius = radius;
+            enemyScript.angularSpeed = 90f;
+            enemyScript.forwardSpeed = 5f;
 
-            // Asigna tipo aleatorio según dificultad
-            float r = Random.value;
-            if (r < 0.4f)
-                script.type = EnemyType.Orbital;
-            else if (r < 0.75f)
-                script.type = EnemyType.Straight;
-            else
-                script.type = EnemyType.ZigZag;
-
-            yield return new WaitForSeconds(interval);
+            // Aquí agregamos el delay entre la aparición de cada enemigo
+            yield return new WaitForSeconds(spawnDelayBetweenEnemies);
         }
     }
+
 }
