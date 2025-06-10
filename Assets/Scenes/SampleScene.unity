@@ -478,10 +478,12 @@ MonoBehaviour:
   center: {fileID: 1686671270}
   radius: 5
   spawnZOffset: -40
-  spawnInterval: 2
+  initialDelay: 3
+  minDelayBetweenWaves: 2
+  maxDelayBetweenWaves: 4
   enemiesPerWave: 5
   zSpacing: 2
-  spawnDelayBetweenEnemies: 0.3
+  spawnDelayBetweenEnemies: 0.2
 --- !u!1 &1686671269
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,8 +589,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5613539991467915582, guid: 811c295e47738574980e366a1d2eef22, type: 3}
   shootPoint: {fileID: 1231639619}
-  bulletSpeed: 30
-  fireInterval: 0.5
+  bulletSpeed: 40
+  fireInterval: 0.4
 --- !u!1001 &2972418918961812652
 PrefabInstance:
   m_ObjectHideFlags: 0
