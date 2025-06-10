@@ -48,24 +48,26 @@ public class PlayerShooting : MonoBehaviour
     void Shoot()
     {
         int bullets = Mathf.Clamp(powerupLevel, 1, 3); // 1, 2 o 3 balas
-        float angleStep = 10f; // Separación entre balas
+        float spread = 0.5f; // separación entre balas
 
         for (int i = 0; i < bullets; i++)
         {
-            Quaternion rot = shootPoint.rotation;
-            if (bullets > 1)
-            {
-                float angle = (i - (bullets - 1) / 2f) * angleStep;
-                rot = shootPoint.rotation * Quaternion.Euler(0, angle, 0);
-            }
-            GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, rot);
+            // Offset horizontal de la bala respecto al centro
+            float offset = (i - (bullets - 1) / 2f) * spread;
+
+            // Posición desplazada en el eje X local
+            Vector3 spawnPos = shootPoint.position + shootPoint.right * offset;
+
+            // Instanciar bala mirando hacia adelante
+            GameObject bullet = Instantiate(bulletPrefab, spawnPos, shootPoint.rotation);
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.velocity = rot * -Vector3.forward * baseBulletSpeed;
+                rb.velocity = shootPoint.forward * baseBulletSpeed;
             }
         }
     }
+
 
     public void CollectPowerup()
     {
