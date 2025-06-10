@@ -11,6 +11,9 @@ public class EnemySpawner : MonoBehaviour
     public int enemiesPerWave = 5;
     public float zSpacing = 2f;
     public float spawnDelayBetweenEnemies = 0.3f;
+    public float initialDelay = 3f;  // segundos de espera antes de la primera oleada
+    public float minDelayBetweenWaves = 2f;
+    public float maxDelayBetweenWaves = 4f;
 
 
     void Start()
@@ -20,11 +23,16 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnWaveLoop()
     {
+        yield return new WaitForSeconds(initialDelay);
+
         while (true)
         {
             float baseAngle = Random.Range(0f, 360f);
             yield return StartCoroutine(SpawnEnemyLine(baseAngle));
-            yield return new WaitForSeconds(Random.Range(2f, 4f));
+
+            // Tiempo aleatorio entre oleadas
+            float waitTime = Random.Range(minDelayBetweenWaves, maxDelayBetweenWaves);
+            yield return new WaitForSeconds(waitTime);
         }
     }
 
