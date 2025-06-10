@@ -3,17 +3,33 @@ using System.Collections;
 
 public class EnemySpawner : MonoBehaviour
 {
+    [Header("Prefab y Centro")]
     public GameObject enemyPrefab;
     public Transform center;
+
+    [Header("Radio y Posición Inicial")]
     public float radius = 5f;
     public float spawnZOffset = -30f;
-    public float spawnInterval = 0.4f;  // ya no se usa para espaciado entre enemigos
-    public int enemiesPerWave = 5;
-    public float zSpacing = 2f;
-    public float spawnDelayBetweenEnemies = 0.3f;
-    public float initialDelay = 3f;  // segundos de espera antes de la primera oleada
+
+    [Header("Configuración de Oleadas")]
+    [Tooltip("Tiempo antes de que aparezca la primera oleada.")]
+    public float initialDelay = 3f;
+
+    [Tooltip("Tiempo mínimo entre oleadas.")]
     public float minDelayBetweenWaves = 2f;
+
+    [Tooltip("Tiempo máximo entre oleadas.")]
     public float maxDelayBetweenWaves = 4f;
+
+    [Space(10)]
+    [Header("Configuración de Enemigos")]
+    public int enemiesPerWave = 5;
+
+    [Tooltip("Separación entre enemigos en Z.")]
+    public float zSpacing = 2f;
+
+    [Tooltip("Delay entre aparición de enemigos en una fila.")]
+    public float spawnDelayBetweenEnemies = 0.3f;
 
 
     void Start()
