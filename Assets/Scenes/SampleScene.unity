@@ -943,7 +943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a74216d52e3f59444a5bf0538ed83320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 229783100897772185, guid: 6f1de046ce61ae241a9d696a5ae4ddc5, type: 3}
+  enemyPrefabs: []
   center: {fileID: 1686671270}
   radius: 5
   spawnZOffset: -40
@@ -953,6 +953,11 @@ MonoBehaviour:
   enemiesPerWave: 5
   zSpacing: 1.5
   spawnDelayBetweenEnemies: 0.2
+  difficultyIncreaseInterval: 60
+  speedIncreaseAmount: 0.5
+  minSpawnDelayLimit: 0.5
+  baseAngularSpeed: 90
+  baseForwardSpeed: 5
 --- !u!114 &1289921340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -968,10 +973,11 @@ MonoBehaviour:
   powerupPrefab: {fileID: 1286261332777146131, guid: cb2b509c17ab49949b97afe343782b49, type: 3}
   center: {fileID: 1686671270}
   radius: 5
-  spawnZMin: -50
-  spawnZMax: -10
-  intervalMin: 5
-  intervalMax: 0
+  spawnZMin: -40
+  spawnZMax: -40
+  initialDelay: 15
+  spawnInterval: 15
+  maxAdditionalDelay: 0
 --- !u!1 &1686671269
 GameObject:
   m_ObjectHideFlags: 0
@@ -1080,7 +1086,7 @@ MonoBehaviour:
   baseBulletSpeed: 15
   baseFireInterval: 0.3
   powerupBar: {fileID: 2057766798}
-  powerupDuration: 5
+  powerupDuration: 17
 --- !u!1 &2035827938
 GameObject:
   m_ObjectHideFlags: 0
