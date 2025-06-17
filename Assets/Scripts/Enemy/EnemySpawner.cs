@@ -3,38 +3,45 @@ using System.Collections;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Header("Prefab y Centro")]
-    public GameObject enemyPrefab;
+    [Header("Prefabs y Centro")]
+    [Tooltip("Lista de prefabs de enemigos que se generarán aleatoriamente")]
+    public GameObject[] enemyPrefabs; // Ahora acepta múltiples tipos
     public Transform center;
 
-    [Header("Radio y Posici�n Inicial")]
+    [Header("Posición Inicial")]
+    [Tooltip("Radio desde el centro del tubo donde se generarán los enemigos")]
     public float radius = 5f;
     public float spawnZOffset = -30f;
 
-    [Header("Configuraci�n de Oleadas")]
-    [Tooltip("Tiempo antes de que aparezca la primera oleada.")]
+    [Header("Configuración de Oleadas")]
+    [Tooltip("Tiempo inicial antes de comenzar a generar oleadas")]
     public float initialDelay = 3f;
-
-    [Tooltip("Tiempo m�nimo entre oleadas.")]
     public float minDelayBetweenWaves = 2f;
-
-    [Tooltip("Tiempo m�ximo entre oleadas.")]
     public float maxDelayBetweenWaves = 4f;
-
-    [Space(10)]
-    [Header("Configuraci�n de Enemigos")]
     public int enemiesPerWave = 5;
-
-    [Tooltip("Separaci�n entre enemigos en Z.")]
     public float zSpacing = 2f;
-
-    [Tooltip("Delay entre aparici�n de enemigos en una fila.")]
     public float spawnDelayBetweenEnemies = 0.3f;
 
+    [Header("Dificultad")]
+    [Tooltip("Intervalo de tiempo para aumentar la dificultad")]
+    public float difficultyIncreaseInterval = 10f;
+    public float speedIncreaseAmount = 0.5f;
+    public float minSpawnDelayLimit = 0.5f;
+
+    [Header("Velocidad Base")]
+    [Tooltip("Velocidad angular base de los enemigos")]
+    public float baseAngularSpeed = 90f;
+    public float baseForwardSpeed = 5f;    
+    private float currentMinDelay;
+    private float currentMaxDelay;
 
     void Start()
     {
+        currentMinDelay = minDelayBetweenWaves;
+        currentMaxDelay = maxDelayBetweenWaves;
+
         StartCoroutine(SpawnWaveLoop());
+        StartCoroutine(IncreaseDifficultyOverTime());
     }
 
     IEnumerator SpawnWaveLoop()
@@ -43,11 +50,10 @@ public class EnemySpawner : MonoBehaviour
 
         while (true)
         {
-            float baseAngle = Random.Range(0f, 360f);
-            yield return StartCoroutine(SpawnEnemyLine(baseAngle));
+            float angle = Random.Range(0f, 360f);
+            yield return StartCoroutine(SpawnEnemyLine(angle));
 
-            // Tiempo aleatorio entre oleadas
-            float waitTime = Random.Range(minDelayBetweenWaves, maxDelayBetweenWaves);
+            float waitTime = Random.Range(currentMinDelay, currentMaxDelay);
             yield return new WaitForSeconds(waitTime);
         }
     }
@@ -62,17 +68,28 @@ public class EnemySpawner : MonoBehaviour
             float zOffset = spawnZOffset - i * zSpacing;
             Vector3 spawnPos = center.position + dir * radius + Vector3.forward * zOffset;
 
-            GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+            GameObject prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+            GameObject enemy = Instantiate(prefab, spawnPos, Quaternion.identity);
 
-            OrbitalEnemy enemyScript = enemy.GetComponent<OrbitalEnemy>();
-            enemyScript.center = center;
-            enemyScript.radius = radius;
-            enemyScript.angularSpeed = 90f;
-            enemyScript.forwardSpeed = 5f;
+            IEnemy enemyScript = enemy.GetComponent<IEnemy>();
+            if (enemyScript != null)
+                enemyScript.Initialize(center, radius, baseAngularSpeed, baseForwardSpeed);
 
-            // Aqu� agregamos el delay entre la aparici�n de cada enemigo
             yield return new WaitForSeconds(spawnDelayBetweenEnemies);
         }
     }
 
+    IEnumerator IncreaseDifficultyOverTime()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(difficultyIncreaseInterval);
+
+            baseAngularSpeed += speedIncreaseAmount;
+            baseForwardSpeed += speedIncreaseAmount;
+
+            currentMinDelay = Mathf.Max(minSpawnDelayLimit, currentMinDelay - 0.2f);
+            currentMaxDelay = Mathf.Max(minSpawnDelayLimit, currentMaxDelay - 0.2f);
+        }
+    }
 }
