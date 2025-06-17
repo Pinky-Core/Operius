@@ -908,6 +908,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1289921338}
   - component: {fileID: 1289921339}
+  - component: {fileID: 1289921340}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -952,6 +953,25 @@ MonoBehaviour:
   enemiesPerWave: 5
   zSpacing: 1.5
   spawnDelayBetweenEnemies: 0.2
+--- !u!114 &1289921340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289921336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4710f29290c6b048bc3f2609946c6b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerupPrefab: {fileID: 1286261332777146131, guid: cb2b509c17ab49949b97afe343782b49, type: 3}
+  center: {fileID: 1686671270}
+  radius: 5
+  spawnZMin: -50
+  spawnZMax: -10
+  intervalMin: 5
+  intervalMax: 0
 --- !u!1 &1686671269
 GameObject:
   m_ObjectHideFlags: 0

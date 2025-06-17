@@ -8,7 +8,7 @@ public class PlayerShooting : MonoBehaviour
     public float baseBulletSpeed = 15f;
     public float baseFireInterval = 0.3f;
     public Slider powerupBar; // Asigna el slider de UI en el inspector
-    public float powerupDuration = 5f; // Tiempo antes de perder un nivel
+    public float powerupDuration = 15f; // Tiempo antes de perder un nivel
 
     private int powerupLevel = 0; // 0: normal, 1: más rápido, 2: dos balas, 3: tres balas
     private float powerupTimer = 0f;
@@ -63,7 +63,7 @@ public class PlayerShooting : MonoBehaviour
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.velocity = shootPoint.forward * baseBulletSpeed;
+                rb.velocity = -shootPoint.forward * baseBulletSpeed;
             }
         }
     }
