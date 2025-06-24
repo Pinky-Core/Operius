@@ -3,10 +3,10 @@ using UnityEngine;
 public class ZigZagEnemy : MonoBehaviour, IEnemy
 {
     private Transform center;
-    private float radius = 5f;
-    private float speed = 5f;       // avance en Z
+    private float radius = 8f;
+    private float speed = 8f;       // avance en Z
     private float frequency = 2f;   // frecuencia zigzag
-    private float amplitude = 2f;   // amplitud zigzag
+    private float amplitude = 8f;   // amplitud zigzag
     private float lifetime = 15f;
     private float time = 0f;
 
