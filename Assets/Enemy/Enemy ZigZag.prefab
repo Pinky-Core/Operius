@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3677682568216688997}
   - component: {fileID: 2305440668460210790}
   - component: {fileID: 4881333378325650267}
-  - component: {fileID: 6791783953159264853}
   - component: {fileID: -6052954708737214680}
   m_Layer: 0
   m_Name: Enemy ZigZag
@@ -135,23 +134,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6791783953159264853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 229783100897772185}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf094b011999e8e40bca1b0367a0efa4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  center: {fileID: 0}
-  radius: 5
-  angularSpeed: 90
-  forwardSpeed: 5
-  lifetime: 10
 --- !u!114 &-6052954708737214680
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class OrbitalEnemy : MonoBehaviour
+public class OrbitalEnemy : MonoBehaviour, IEnemy
 {
     public Transform center;
     public float radius = 4f;
@@ -11,17 +11,22 @@ public class OrbitalEnemy : MonoBehaviour
     private float angle;
     private float lifeTimer;
 
-    void Start()
+    public void Initialize(Transform center, float radius, float angularSpeed, float forwardSpeed)
     {
+        this.center = center;
+        this.radius = radius;
+        this.angularSpeed = angularSpeed;
+        this.forwardSpeed = forwardSpeed;
+
         Vector3 dir = (transform.position - center.position).normalized;
-        angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; //  Atan2(Y, X)
+        angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         lifeTimer = lifetime;
     }
 
-
     void Update()
     {
-        // Movimiento orbital
+        if (center == null) return; // Protección extra
+
         angle += angularSpeed * Time.deltaTime;
         float rad = angle * Mathf.Deg2Rad;
         Vector3 offset = new Vector3(Mathf.Sin(rad), Mathf.Cos(rad), 0f) * radius;
@@ -29,10 +34,8 @@ public class OrbitalEnemy : MonoBehaviour
         transform.position += Vector3.forward * forwardSpeed * Time.deltaTime;
         transform.position = new Vector3(offset.x, offset.y, transform.position.z);
 
-        // Mirar hacia el centro
         transform.rotation = Quaternion.LookRotation(Vector3.forward, (transform.position - center.position).normalized);
 
-        // Vida limitada
         lifeTimer -= Time.deltaTime;
         if (lifeTimer <= 0f)
             Destroy(gameObject);

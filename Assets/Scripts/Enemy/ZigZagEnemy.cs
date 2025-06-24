@@ -2,27 +2,45 @@ using UnityEngine;
 
 public class ZigZagEnemy : MonoBehaviour, IEnemy
 {
-    private float speed = 5f;
-    private float zigzagSpeed = 4f;
-    private float frequency = 2f;
+    private Transform center;
+    private float radius = 5f;
+    private float speed = 5f;       // avance en Z
+    private float frequency = 2f;   // frecuencia zigzag
+    private float amplitude = 2f;   // amplitud zigzag
     private float lifetime = 15f;
     private float time = 0f;
 
     public void Initialize(Transform center, float radius, float angularSpeed, float forwardSpeed)
     {
-        speed = forwardSpeed;
-        zigzagSpeed = angularSpeed;
+        this.center = center;
+        this.radius = radius;
+        this.speed = forwardSpeed;
+        this.amplitude = Mathf.Clamp(radius * 0.5f, 0.5f, radius); // zigzag hasta mitad del radio
+        this.frequency = angularSpeed / 30f; // control suave del zigzag
     }
 
     void Update()
     {
+        if (center == null) return;
+
         time += Time.deltaTime;
 
-        Vector3 move = Vector3.forward * speed * Time.deltaTime;
-        move += Vector3.right * Mathf.Sin(time * frequency) * zigzagSpeed * Time.deltaTime;
+        // Posición base en Z (avance)
+        float newZ = transform.position.z + speed * Time.deltaTime;
 
-        transform.position += move;
+        // Zigzag lateral en X
+        float offsetX = Mathf.Sin(time * frequency) * amplitude;
 
+        // Mantener la posición Y en la posición del centro (o la podés variar si querés)
+        float baseY = center.position.y;
+
+        // Nueva posición combinando avance en Z + zigzag en X + Y fijo en centro
+        transform.position = new Vector3(center.position.x + offsetX, baseY, newZ);
+
+        // Mirar hacia adelante (en Z)
+        transform.rotation = Quaternion.LookRotation(Vector3.forward);
+
+        // Vida limitada
         lifetime -= Time.deltaTime;
         if (lifetime <= 0f)
             Destroy(gameObject);
