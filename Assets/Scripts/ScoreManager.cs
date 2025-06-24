@@ -25,8 +25,13 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreUI();
     }
 
+    // Suma puntos SOLO según el tag del objeto recibido
     public void AddPointsFrom(GameObject obj)
     {
+        // Por seguridad, ignorar balas o tags no deseados
+        if (obj.CompareTag("bullet"))
+            return;
+
         foreach (var item in scoringTags)
         {
             if (obj.CompareTag(item.tag))

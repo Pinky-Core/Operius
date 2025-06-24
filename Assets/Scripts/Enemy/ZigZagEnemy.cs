@@ -2,21 +2,29 @@ using UnityEngine;
 
 public class ZigZagEnemy : MonoBehaviour, IEnemy
 {
-    private Transform center;
-    private float radius = 8f;
-    private float speed = 8f;       // avance en Z
-    private float frequency = 2f;   // frecuencia zigzag
-    private float amplitude = 8f;   // amplitud zigzag
+    public Transform center;
+    private float radius = 5f;
+    private float angularSpeed = 90f;
+    private float forwardSpeed = 4f;
+    private float frequency = 2f;
+    private float amplitude = 1.5f;
     private float lifetime = 15f;
-    private float time = 0f;
+
+    private float angle;
+    private float time;
 
     public void Initialize(Transform center, float radius, float angularSpeed, float forwardSpeed)
     {
         this.center = center;
         this.radius = radius;
-        this.speed = forwardSpeed;
-        this.amplitude = Mathf.Clamp(radius * 0.5f, 0.5f, radius); // zigzag hasta mitad del radio
-        this.frequency = angularSpeed / 30f; // control suave del zigzag
+        this.angularSpeed = angularSpeed;
+        this.forwardSpeed = forwardSpeed;
+
+        amplitude = Mathf.Clamp(radius * 0.3f, 0.5f, radius * 0.7f);
+        frequency = angularSpeed / 45f; // control más suave del zigzag
+
+        Vector3 dir = (transform.position - center.position).normalized;
+        angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
     }
 
     void Update()
@@ -25,22 +33,24 @@ public class ZigZagEnemy : MonoBehaviour, IEnemy
 
         time += Time.deltaTime;
 
-        // Posición base en Z (avance)
-        float newZ = transform.position.z + speed * Time.deltaTime;
+        // Avance angular en grados
+        angle += angularSpeed * Time.deltaTime;
+        float rad = angle * Mathf.Deg2Rad;
 
-        // Zigzag lateral en X
-        float offsetX = Mathf.Sin(time * frequency) * amplitude;
+        // Zigzag radial: fluctúa el radio base
+        float currentRadius = radius + Mathf.Sin(time * frequency) * amplitude;
 
-        // Mantener la posición Y en la posición del centro (o la podés variar si querés)
-        float baseY = center.position.y;
+        // Posición orbital con zigzag
+        Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0f) * currentRadius;
 
-        // Nueva posición combinando avance en Z + zigzag en X + Y fijo en centro
-        transform.position = new Vector3(center.position.x + offsetX, baseY, newZ);
+        // Mover en Z también (avanza)
+        transform.position = center.position + offset + Vector3.forward * forwardSpeed * time;
 
-        // Mirar hacia adelante (en Z)
-        transform.rotation = Quaternion.LookRotation(Vector3.forward);
+        // Rotación mirando hacia el centro (puede cambiarse si querés que mire hacia adelante)
+        Vector3 toCenter = (transform.position - center.position).normalized;
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, toCenter);
 
-        // Vida limitada
+        // Tiempo de vida
         lifetime -= Time.deltaTime;
         if (lifetime <= 0f)
             Destroy(gameObject);
