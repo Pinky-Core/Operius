@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.043663032, g: 0.04482539, b: 0.059559315, a: 1}
+  m_IndirectSpecularColor: {r: 0.2039947, g: 0.20552269, b: 0.0006756551, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -969,7 +969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pixelateMaterial: {fileID: 2100000, guid: 14e2f1a0896c8d3419a07dba2c5b0ef4, type: 2}
-  pixelSize: 5
+  pixelSize: 7
   autoAdjustPixelSize: 1
   adjustCameraFOV: 1
   baseFOV: 64.53603
@@ -1822,10 +1822,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sectorColors:
-  - {r: 1, g: 0.043137252, b: 0.060132768, a: 0}
-  - {r: 1, g: 0.9676805, b: 0.033018887, a: 0}
-  - {r: 0.14175326, g: 0.6603774, b: 0, a: 0}
+  - {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 0}
+  - {r: 1, g: 0.99176276, b: 0.031372547, a: 0}
+  - {r: 0.1695311, g: 1, b: 0, a: 0}
+  - {r: 1, g: 0, b: 0.11128998, a: 0}
   sectorText: {fileID: 1199814043}
+  transitionDuration: 2
 --- !u!1 &1977792719
 GameObject:
   m_ObjectHideFlags: 0

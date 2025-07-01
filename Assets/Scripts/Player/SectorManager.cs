@@ -1,12 +1,15 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class SectorManager : MonoBehaviour
 {
-    public Color[] sectorColors;          // Colores para cada sector
-    public TextMeshProUGUI sectorText;   // Texto para mostrar solo el número de sector
+    public Color[] sectorColors;               // Colores para cada sector
+    public TextMeshProUGUI sectorText;         // Texto para mostrar solo el número de sector
+    public float transitionDuration = 2f;      // Tiempo de transición
 
     private int currentSector = 0;
+    private Coroutine colorTransitionCoroutine;
 
     void OnEnable()
     {
@@ -20,22 +23,26 @@ public class SectorManager : MonoBehaviour
 
     void Start()
     {
-        UpdateSkyboxColor(currentSector);
+        UpdateSkyboxTint(currentSector);
         UpdateSectorText(currentSector);
     }
 
     void OnSectorLevelUp(int newSector)
     {
         currentSector = newSector;
-        UpdateSkyboxColor(currentSector);
         UpdateSectorText(currentSector);
+
+        if (colorTransitionCoroutine != null)
+            StopCoroutine(colorTransitionCoroutine);
+
+        colorTransitionCoroutine = StartCoroutine(TransitionSkyboxTint(sectorColors[currentSector]));
     }
 
-    void UpdateSkyboxColor(int sectorIndex)
+    void UpdateSkyboxTint(int sectorIndex)
     {
         if (sectorIndex >= 0 && sectorIndex < sectorColors.Length)
         {
-            RenderSettings.skybox.SetColor("_SkyTint", sectorColors[sectorIndex]);
+            RenderSettings.skybox.SetColor("_Tint", sectorColors[sectorIndex]);
             DynamicGI.UpdateEnvironment();
         }
     }
@@ -44,8 +51,26 @@ public class SectorManager : MonoBehaviour
     {
         if (sectorText != null)
         {
-            // Muestra con ceros a la izquierda, 3 dígitos
             sectorText.text = (sectorIndex + 1).ToString("D3");
         }
+    }
+
+    IEnumerator TransitionSkyboxTint(Color targetColor)
+    {
+        Color startColor = RenderSettings.skybox.GetColor("_Tint");
+        float elapsedTime = 0f;
+
+        while (elapsedTime < transitionDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            Color lerpedColor = Color.Lerp(startColor, targetColor, elapsedTime / transitionDuration);
+            RenderSettings.skybox.SetColor("_Tint", lerpedColor);
+            DynamicGI.UpdateEnvironment();
+            yield return null;
+        }
+
+        // Asegura el color final exacto
+        RenderSettings.skybox.SetColor("_Tint", targetColor);
+        DynamicGI.UpdateEnvironment();
     }
 }
