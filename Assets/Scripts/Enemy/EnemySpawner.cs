@@ -3,8 +3,9 @@ using System.Collections;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Header("Prefabs y Centro")]
-    public Transform center;
+    [Header("Prefabs y Centros")]
+    public Transform center;           // Centro general
+    public Transform zigzagCenter;     // Nuevo centro para ZigZagEnemy
 
     [Header("Tipos de enemigos por fase")]
     public GameObject[] earlyEnemies;
@@ -24,7 +25,6 @@ public class EnemySpawner : MonoBehaviour
     public float spawnDelayBetweenEnemies = 0.3f;
 
     [Header("Dificultad")]
-    public float difficultyIncreaseInterval = 10f;
     public float speedIncreaseAmount = 0.5f;
     public float minSpawnDelayLimit = 0.5f;
 
@@ -36,13 +36,24 @@ public class EnemySpawner : MonoBehaviour
     private float currentMaxDelay;
     private float elapsedTime = 0f;
 
+    void OnEnable()
+    {
+        PlayerShooting.SectorLevelUpEvent += OnSectorLevelUp;
+    }
+
+    void OnDisable()
+    {
+        PlayerShooting.SectorLevelUpEvent -= OnSectorLevelUp;
+    }
+
     void Start()
     {
         currentMinDelay = minDelayBetweenWaves;
         currentMaxDelay = maxDelayBetweenWaves;
 
         StartCoroutine(SpawnWaveLoop());
-        StartCoroutine(IncreaseDifficultyOverTime());
+
+        PlayerShooting.SectorLevelUpEvent += OnSectorLevelUp;
     }
 
     IEnumerator SpawnWaveLoop()
@@ -51,7 +62,7 @@ public class EnemySpawner : MonoBehaviour
 
         while (true)
         {
-            elapsedTime += currentMinDelay; // Suma aprox el tiempo de espera entre oleadas
+            elapsedTime += currentMinDelay;
 
             float angle = Random.Range(0f, 360f);
             yield return StartCoroutine(SpawnEnemyLine(angle));
@@ -66,21 +77,45 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnEnemyLine(float angle)
     {
         float rad = angle * Mathf.Deg2Rad;
-        Vector3 dir = new Vector3(Mathf.Sin(rad), Mathf.Cos(rad), 0f);
+        Vector3 dir = new Vector3(Mathf.Sin(rad), Mathf.Cos(rad), 0f).normalized;
 
         GameObject[] possibleEnemies = GetEnemiesForTime(elapsedTime);
 
         for (int i = 0; i < enemiesPerWave; i++)
         {
             float zOffset = spawnZOffset - i * zSpacing;
+
             Vector3 spawnPos = center.position + dir * radius + Vector3.forward * zOffset;
+
+            // Evitar spawn muy cerca en XY
+            float minDistanceXY = 8f;
+            Vector2 deltaXY = new Vector2(spawnPos.x - center.position.x, spawnPos.y - center.position.y);
+            if (deltaXY.magnitude < minDistanceXY)
+            {
+                deltaXY = deltaXY.normalized * minDistanceXY;
+                spawnPos.x = center.position.x + deltaXY.x;
+                spawnPos.y = center.position.y + deltaXY.y;
+            }
+
+            // Evitar spawn muy cerca en Z (siendo "atrás")
+            float minDistanceZ = 15f;
+            if (spawnPos.z > center.position.z - minDistanceZ)
+            {
+                spawnPos.z = center.position.z - minDistanceZ;
+            }
 
             GameObject prefab = possibleEnemies[Random.Range(0, possibleEnemies.Length)];
             GameObject enemy = Instantiate(prefab, spawnPos, Quaternion.identity);
 
             IEnemy enemyScript = enemy.GetComponent<IEnemy>();
             if (enemyScript != null)
-                enemyScript.Initialize(center, radius, baseAngularSpeed, baseForwardSpeed);
+            {
+                // Asigna el centro según el tipo de enemigo
+                if (enemyScript is ZigZagEnemy)
+                    enemyScript.Initialize(zigzagCenter, radius, baseAngularSpeed, baseForwardSpeed);
+                else
+                    enemyScript.Initialize(center, radius, baseAngularSpeed, baseForwardSpeed);
+            }
 
             yield return new WaitForSeconds(spawnDelayBetweenEnemies);
         }
@@ -109,17 +144,17 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    IEnumerator IncreaseDifficultyOverTime()
+    void OnSectorLevelUp(int newSector)
     {
-        while (true)
-        {
-            yield return new WaitForSeconds(difficultyIncreaseInterval);
+        baseAngularSpeed = 90f + newSector * 5f;
+        baseForwardSpeed = 5f + newSector * 2f;
 
-            baseAngularSpeed += speedIncreaseAmount;
-            baseForwardSpeed += speedIncreaseAmount;
+        minDelayBetweenWaves = Mathf.Max(minSpawnDelayLimit, 2f - newSector * 0.3f);
+        maxDelayBetweenWaves = Mathf.Max(minSpawnDelayLimit, 4f - newSector * 0.3f);
 
-            currentMinDelay = Mathf.Max(minSpawnDelayLimit, currentMinDelay - 0.2f);
-            currentMaxDelay = Mathf.Max(minSpawnDelayLimit, currentMaxDelay - 0.2f);
-        }
+        currentMinDelay = minDelayBetweenWaves;
+        currentMaxDelay = maxDelayBetweenWaves;
+
+        Debug.Log($"Sector {newSector} alcanzado: dificultad ajustada.");
     }
 }

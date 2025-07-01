@@ -25,14 +25,18 @@ public class OrbitalEnemy : MonoBehaviour, IEnemy
 
     void Update()
     {
-        if (center == null) return; // Protección extra
+        if (center == null) return;
 
         angle += angularSpeed * Time.deltaTime;
         float rad = angle * Mathf.Deg2Rad;
         Vector3 offset = new Vector3(Mathf.Sin(rad), Mathf.Cos(rad), 0f) * radius;
 
+        // Avanza en Z
         transform.position += Vector3.forward * forwardSpeed * Time.deltaTime;
-        transform.position = new Vector3(offset.x, offset.y, transform.position.z);
+
+        // Mantén el z actual y actualiza X e Y en órbita alrededor del centro
+        float currentZ = transform.position.z;
+        transform.position = new Vector3(center.position.x + offset.x, center.position.y + offset.y, currentZ);
 
         transform.rotation = Quaternion.LookRotation(Vector3.forward, (transform.position - center.position).normalized);
 

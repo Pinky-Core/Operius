@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class PlayerShooting : MonoBehaviour
 {
@@ -9,14 +10,20 @@ public class PlayerShooting : MonoBehaviour
     public float baseFireInterval = 0.3f;
 
     [Header("Power-up Visuals")]
-    public Image[] powerupBars; // Asigna aquí las 3 imágenes del HUD (en orden)
+    public Image[] powerupBars;
 
-    public float powerupDuration = 15f; // Tiempo antes de perder un nivel
+    public float powerupDuration = 15f;
 
-    private int powerupLevel = 0; // 0: normal, 1: más rápido, 2: dos balas, 3: tres balas
+    private int powerupLevel = 0;
     private float powerupTimer = 0f;
     private float currentFireInterval;
     private float lastShootTime = 0f;
+
+    public bool canShoot = true;
+
+    private int sectorLevel = 0;
+
+    public static event Action<int> SectorLevelUpEvent;
 
     void Start()
     {
@@ -26,14 +33,14 @@ public class PlayerShooting : MonoBehaviour
 
     void Update()
     {
-        // Disparo automático según intervalo
+        if (!canShoot) return;
+
         if (Time.time - lastShootTime >= currentFireInterval)
         {
             Shoot();
             lastShootTime = Time.time;
         }
 
-        // Timer de degradación de powerup
         if (powerupLevel > 0)
         {
             powerupTimer -= Time.deltaTime;
@@ -51,8 +58,8 @@ public class PlayerShooting : MonoBehaviour
 
     void Shoot()
     {
-        int bullets = Mathf.Clamp(powerupLevel, 1, 3); // Dispara 1, 2 o 3 balas
-        float spread = 0.5f; // Separación entre balas
+        int bullets = Mathf.Clamp(powerupLevel, 1, 3);
+        float spread = 0.5f;
 
         for (int i = 0; i < bullets; i++)
         {
@@ -71,7 +78,15 @@ public class PlayerShooting : MonoBehaviour
     public void CollectPowerup()
     {
         if (powerupLevel < 3)
+        {
             powerupLevel++;
+        }
+        else
+        {
+            sectorLevel++;
+            powerupLevel = 0;
+            SectorLevelUpEvent?.Invoke(sectorLevel);
+        }
 
         UpdatePowerupVisual();
         UpdateFireSettings();
@@ -80,10 +95,7 @@ public class PlayerShooting : MonoBehaviour
 
     void UpdateFireSettings()
     {
-        if (powerupLevel == 0)
-            currentFireInterval = baseFireInterval;
-        else
-            currentFireInterval = baseFireInterval * 0.7f; // Más rápido a partir de nivel 1
+        currentFireInterval = (powerupLevel == 0) ? baseFireInterval : baseFireInterval * 0.7f;
     }
 
     void UpdatePowerupVisual()

@@ -11,7 +11,7 @@ public class ZigZagEnemy : MonoBehaviour, IEnemy
     private float lifetime = 15f;
 
     private float angle;
-    private float time;
+    private float startTime;
 
     public void Initialize(Transform center, float radius, float angularSpeed, float forwardSpeed)
     {
@@ -21,36 +21,38 @@ public class ZigZagEnemy : MonoBehaviour, IEnemy
         this.forwardSpeed = forwardSpeed;
 
         amplitude = Mathf.Clamp(radius * 0.3f, 0.5f, radius * 0.7f);
-        frequency = angularSpeed / 45f; // control más suave del zigzag
+        frequency = angularSpeed / 45f;
 
         Vector3 dir = (transform.position - center.position).normalized;
         angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        // Guardamos el tiempo inicial para controlar el avance
+        startTime = Time.time;
     }
 
     void Update()
     {
         if (center == null) return;
 
-        time += Time.deltaTime;
+        float elapsed = Time.time - startTime;
 
         // Avance angular en grados
         angle += angularSpeed * Time.deltaTime;
         float rad = angle * Mathf.Deg2Rad;
 
-        // Zigzag radial: fluctúa el radio base
-        float currentRadius = radius + Mathf.Sin(time * frequency) * amplitude;
+        // Zigzag radial (radio fluctuante)
+        float currentRadius = radius + Mathf.Sin(elapsed * frequency) * amplitude;
 
-        // Posición orbital con zigzag
+        // Offset orbital con zigzag
         Vector3 offset = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0f) * currentRadius;
 
-        // Mover en Z también (avanza)
-        transform.position = center.position + offset + Vector3.forward * forwardSpeed * time;
+        // Posición final: centro + offset + avance en Z por tiempo transcurrido
+        transform.position = center.position + offset + Vector3.forward * forwardSpeed * elapsed;
 
-        // Rotación mirando hacia el centro (puede cambiarse si querés que mire hacia adelante)
+        // Rotación mirando hacia el centro
         Vector3 toCenter = (transform.position - center.position).normalized;
         transform.rotation = Quaternion.LookRotation(Vector3.forward, toCenter);
 
-        // Tiempo de vida
         lifetime -= Time.deltaTime;
         if (lifetime <= 0f)
             Destroy(gameObject);
