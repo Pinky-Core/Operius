@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -11,6 +12,14 @@ public class EnemySpawner : MonoBehaviour
     public GameObject[] earlyEnemies;
     public GameObject[] midEnemies;
     public GameObject[] lateEnemies;
+
+    [Header("Boss")]
+    public GameObject bossPrefab;
+    public Transform bossSpawnPoint;
+    public Slider bossHealthBarSlider;
+    private bool bossSpawned = false;
+    private GameObject currentBossInstance;
+
 
     [Header("Posición Inicial")]
     public float radius = 5f;
@@ -62,6 +71,13 @@ public class EnemySpawner : MonoBehaviour
 
         while (true)
         {
+            // Esperar mientras el boss esté vivo
+            if (currentBossInstance != null)
+            {
+                yield return new WaitForSeconds(1f);
+                continue;
+            }
+
             elapsedTime += currentMinDelay;
 
             float angle = Random.Range(0f, 360f);
@@ -73,6 +89,7 @@ public class EnemySpawner : MonoBehaviour
             elapsedTime += waitTime;
         }
     }
+
 
     IEnumerator SpawnEnemyLine(float angle)
     {
@@ -144,6 +161,67 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    void SpawnBoss()
+    {
+        currentBossInstance = Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
+
+        BossEnemy bossScript = currentBossInstance.GetComponent<BossEnemy>();
+        if (bossScript != null)
+        {
+            bossScript.Initialize(center, radius, baseAngularSpeed * 0.5f, baseForwardSpeed * 0.5f);
+
+            if (bossHealthBarSlider != null)
+            {
+                bossScript.healthBar = bossHealthBarSlider;
+                bossHealthBarSlider.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    IEnumerator SpawnBossGuardWave()
+    {
+        int totalToSpawn = 20;
+        float delayBetweenSpawns = 0.5f;
+        GameObject[] enemies = GetEnemiesForTime(elapsedTime);
+
+        for (int i = 0; i < totalToSpawn; i++)
+        {
+            float angle = Random.Range(0f, 360f);
+            float rad = angle * Mathf.Deg2Rad;
+            Vector3 dir = new Vector3(Mathf.Sin(rad), Mathf.Cos(rad), 0f);
+            Vector3 spawnPos = bossSpawnPoint.position + dir * 10f;
+
+            GameObject prefab = enemies[Random.Range(0, enemies.Length)];
+            GameObject enemy = Instantiate(prefab, spawnPos, Quaternion.identity);
+
+            IEnemy enemyScript = enemy.GetComponent<IEnemy>();
+            if (enemyScript != null)
+            {
+                if (enemyScript is ZigZagEnemy)
+                    enemyScript.Initialize(zigzagCenter, radius, baseAngularSpeed, baseForwardSpeed);
+                else
+                    enemyScript.Initialize(center, radius, baseAngularSpeed, baseForwardSpeed);
+            }
+
+            yield return new WaitForSeconds(delayBetweenSpawns);
+        }
+
+        Debug.Log("Oleada completa de escoltas del boss.");
+    }
+
+
+    IEnumerator SpawnBossGuardWavesLoop()
+    {
+        while (currentBossInstance != null)
+        {
+            yield return StartCoroutine(SpawnBossGuardWave());
+            yield return new WaitForSeconds(4f); // Espera entre cada oleada
+        }
+
+        Debug.Log("El boss ha muerto, se detienen las oleadas de escoltas.");
+    }
+
+
     void OnSectorLevelUp(int newSector)
     {
         baseAngularSpeed = 90f + newSector * 5f;
@@ -156,5 +234,12 @@ public class EnemySpawner : MonoBehaviour
         currentMaxDelay = maxDelayBetweenWaves;
 
         Debug.Log($"Sector {newSector} alcanzado: dificultad ajustada.");
+
+        if (newSector == 3 && !bossSpawned)
+        {
+            bossSpawned = true;
+            SpawnBoss();
+            StartCoroutine(SpawnBossGuardWavesLoop());
+        }
     }
 }
