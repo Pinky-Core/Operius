@@ -5,13 +5,21 @@ using UnityEngine.UI;
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Prefabs y Centros")]
-    public Transform center;           // Centro general
-    public Transform zigzagCenter;     // Nuevo centro para ZigZagEnemy
+    public Transform center;        
+    public Transform zigzagCenter;    
 
     [Header("Tipos de enemigos por fase")]
     public GameObject[] earlyEnemies;
     public GameObject[] midEnemies;
     public GameObject[] lateEnemies;
+
+    [Header("Meteoritos")]
+    public GameObject[] meteoritePrefabs;
+    public float meteoriteSpawnInterval = 5f;
+    public float meteoriteSpawnRadius = 15f;
+    public float initialDelayMeteorites = 5f;
+
+
 
     [Header("Boss")]
     public GameObject bossPrefab;
@@ -61,6 +69,7 @@ public class EnemySpawner : MonoBehaviour
         currentMaxDelay = maxDelayBetweenWaves;
 
         StartCoroutine(SpawnWaveLoop());
+        StartCoroutine(SpawnMeteoritesLoop());
 
         PlayerShooting.SectorLevelUpEvent += OnSectorLevelUp;
     }
@@ -160,6 +169,33 @@ public class EnemySpawner : MonoBehaviour
             return combined;
         }
     }
+
+    IEnumerator SpawnMeteoritesLoop()
+    {
+        yield return new WaitForSeconds(initialDelayMeteorites);
+
+        while (true)
+        {
+            if (meteoritePrefabs.Length == 0)
+            {
+                Debug.LogWarning("No meteorite prefabs assigned!");
+                yield break;
+            }
+
+            Vector3 spawnPos = center.position + new Vector3(
+                Random.Range(-meteoriteSpawnRadius, meteoriteSpawnRadius),
+                Random.Range(-meteoriteSpawnRadius, meteoriteSpawnRadius),
+                spawnZOffset
+            );
+
+            GameObject prefab = meteoritePrefabs[Random.Range(0, meteoritePrefabs.Length)];
+            Instantiate(prefab, spawnPos, Quaternion.identity);
+
+            yield return new WaitForSeconds(meteoriteSpawnInterval);
+        }
+    }
+
+
 
     void SpawnBoss()
     {

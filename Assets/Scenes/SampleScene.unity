@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.2039947, g: 0, b: 0.0033015586, a: 1}
+  m_IndirectSpecularColor: {r: 0.08029421, g: 0.08243179, b: 0.10952549, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1248,6 +1248,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 970555005}
   m_CullTransparentMesh: 1
+--- !u!1001 &1043197885
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1471820525369205860, guid: c03bd4a9c21eff74a8771f8e0d70e711, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -327.8792
+      objectReference: {fileID: 0}
+    - target: {fileID: 1471820525369205860, guid: c03bd4a9c21eff74a8771f8e0d70e711, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.2787795
+      objectReference: {fileID: 0}
+    - target: {fileID: 1471820525369205860, guid: c03bd4a9c21eff74a8771f8e0d70e711, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1471820525369205860, guid: c03bd4a9c21eff74a8771f8e0d70e711, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1471820525369205860, guid: c03bd4a9c21eff74a8771f8e0d70e711, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.0000000814605
+      objectReference: {fileID: 0}
+    - target: {fileID: 1471820525369205860, guid: c03bd4a9c21eff74a8771f8e0d70e711, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1471820525369205860, guid: c03bd4a9c21eff74a8771f8e0d70e711, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1471820525369205860, guid: c03bd4a9c21eff74a8771f8e0d70e711, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1471820525369205860, guid: c03bd4a9c21eff74a8771f8e0d70e711, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1471820525369205860, guid: c03bd4a9c21eff74a8771f8e0d70e711, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7139729654043156525, guid: c03bd4a9c21eff74a8771f8e0d70e711, type: 3}
+      propertyPath: m_Name
+      value: RockFracture9
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c03bd4a9c21eff74a8771f8e0d70e711, type: 3}
 --- !u!1 &1045814270
 GameObject:
   m_ObjectHideFlags: 0
@@ -1413,63 +1470,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1063927083}
   m_CullTransparentMesh: 1
---- !u!1001 &1106642855
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2197413577070157647, guid: 948872fead336f14bb01b858a1296ca3, type: 3}
-      propertyPath: m_Name
-      value: Obstacle
-      objectReference: {fileID: 0}
-    - target: {fileID: 3205722622145321566, guid: 948872fead336f14bb01b858a1296ca3, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -326.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3205722622145321566, guid: 948872fead336f14bb01b858a1296ca3, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 4.3979383
-      objectReference: {fileID: 0}
-    - target: {fileID: 3205722622145321566, guid: 948872fead336f14bb01b858a1296ca3, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -2.3297281
-      objectReference: {fileID: 0}
-    - target: {fileID: 3205722622145321566, guid: 948872fead336f14bb01b858a1296ca3, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3205722622145321566, guid: 948872fead336f14bb01b858a1296ca3, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3205722622145321566, guid: 948872fead336f14bb01b858a1296ca3, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3205722622145321566, guid: 948872fead336f14bb01b858a1296ca3, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3205722622145321566, guid: 948872fead336f14bb01b858a1296ca3, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3205722622145321566, guid: 948872fead336f14bb01b858a1296ca3, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3205722622145321566, guid: 948872fead336f14bb01b858a1296ca3, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 948872fead336f14bb01b858a1296ca3, type: 3}
 --- !u!1 &1126930421
 GameObject:
   m_ObjectHideFlags: 0
@@ -1857,6 +1857,15 @@ MonoBehaviour:
   midEnemies:
   - {fileID: 1819600232101861634, guid: f83d60aaeff80394bb3a2c9c73d5ec96, type: 3}
   lateEnemies: []
+  meteoritePrefabs:
+  - {fileID: 7139729654043156525, guid: c03bd4a9c21eff74a8771f8e0d70e711, type: 3}
+  - {fileID: 1797448692007430590, guid: 579e809d2465e864795196e5b0545d73, type: 3}
+  - {fileID: 8045309804241059600, guid: a680ad859bd92a345b6ae6b11c6a4301, type: 3}
+  - {fileID: 7273956540791742907, guid: 9cb5e7465eef1af4988889e41a071493, type: 3}
+  - {fileID: 3291891354613854917, guid: 3054692602d6b2c418a430defcc5dca4, type: 3}
+  meteoriteSpawnInterval: 5
+  meteoriteSpawnRadius: 5
+  initialDelayMeteorites: 5
   bossPrefab: {fileID: 8101589881808577556, guid: 56d0b429633f2ae4b8434d55ad588ae8, type: 3}
   bossSpawnPoint: {fileID: 2079921847}
   bossHealthBarSlider: {fileID: 1045814271}
@@ -2680,5 +2689,5 @@ SceneRoots:
   - {fileID: 1905781860}
   - {fileID: 771436690}
   - {fileID: 177669022}
-  - {fileID: 1106642855}
   - {fileID: 4732279916753176027}
+  - {fileID: 1043197885}
