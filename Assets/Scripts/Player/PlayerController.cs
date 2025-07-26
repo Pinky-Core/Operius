@@ -75,6 +75,14 @@ public class PlayerController : MonoBehaviour
 
         GetComponent<PlayerShooting>().canShoot = false;
 
+        // Guardar highscore
+        int score = ScoreManager.Instance != null ? ScoreManager.Instance.score : 0;
+        if (score > PlayerPrefs.GetInt("HighScore", 0))
+        {
+            PlayerPrefs.SetInt("HighScore", score);
+            PlayerPrefs.Save();
+        }
+
         // Instanciar partículas de muerte
         if (deathEffect != null)
             Instantiate(deathEffect, transform.position, Quaternion.identity);

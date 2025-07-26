@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class ScoreManager : MonoBehaviour
 {
+    public static ScoreManager Instance { get; private set; }
+
     [System.Serializable]
     public class ScoringTag
     {
@@ -20,12 +22,25 @@ public class ScoreManager : MonoBehaviour
     [Header("Puntaje actual")]
     public int score = 0;
 
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
         UpdateScoreUI();
     }
 
-    // Suma puntos SOLO según el tag del objeto recibido
+    // Suma puntos SOLO segÃºn el tag del objeto recibido
     public void AddPointsFrom(GameObject obj)
     {
         // Por seguridad, ignorar balas o tags no deseados

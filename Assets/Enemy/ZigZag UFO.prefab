@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 2301a09c168874f8a85418fb2688a4be, type: 2}
     - target: {fileID: 919132149155446097, guid: 55a7154760840453cbf09a19f950e2f8, type: 3}
       propertyPath: m_Name
-      value: UFO (1)
+      value: ZigZag UFO
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 55a7154760840453cbf09a19f950e2f8, type: 3}
       propertyPath: m_TagString
@@ -104,6 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce27b6922124f2a4b814fc2d51d8a923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  center: {fileID: 0}
 --- !u!135 &1591917641187992707
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -123,5 +124,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 5.2828026
+  m_Radius: 8
   m_Center: {x: 0, y: 0.29690337, z: 0}
