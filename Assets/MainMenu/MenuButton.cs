@@ -107,8 +107,8 @@ public class MenuButton : MonoBehaviour
     public void ExecuteWithDelay(float customDelay)
     {
         if (screenAnimator != null)
-        {
-            screenAnimator.SetTrigger("Close");
+    {
+        screenAnimator.SetTrigger("Close");
             Invoke(nameof(ExecuteAction), customDelay);
         }
         else
