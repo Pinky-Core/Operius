@@ -56,6 +56,7 @@ public class ScoreManager : MonoBehaviour
             if (obj.CompareTag(item.tag))
             {
                 score += item.points;
+                Debug.Log($"Puntos añadidos: {item.points}. Puntaje total: {score}");
                 UpdateScoreUI();
                 
                 // Convertir puntos a monedas automáticamente si está habilitado
@@ -73,6 +74,8 @@ public class ScoreManager : MonoBehaviour
         if (scoreText != null)
         {
             scoreText.text = score.ToString();
+            // Forzar la actualización del texto en la UI
+            scoreText.ForceMeshUpdate();
         }
     }
     
@@ -140,5 +143,13 @@ public class ScoreManager : MonoBehaviour
         score = 0;
         UpdateScoreUI();
         Debug.Log("Puntaje reseteado");
+    }
+
+    /// <summary>
+    /// Fuerza la actualización de la UI del puntaje
+    /// </summary>
+    public void ForceUpdateUI()
+    {
+        UpdateScoreUI();
     }
 }
