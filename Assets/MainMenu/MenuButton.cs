@@ -18,10 +18,16 @@ public class MenuButton : MonoBehaviour
     public MenuAction action;
     public Animator screenAnimator;
     public float delayBeforeAction = 1f;
+    
+    [Header("Audio")]
+    [SerializeField] private AudioClip buttonClickSound;
 
     // Método principal para usar en eventos del menú radial
     public void OnClick()
     {
+        // Reproducir sonido de clic de botón
+        PlayButtonClickSound();
+        
         // Si hay animación, ejecutarla primero
         if (screenAnimator != null)
         {
@@ -33,6 +39,54 @@ public class MenuButton : MonoBehaviour
             // Si no hay animación, ejecutar inmediatamente
             ExecuteAction();
         }
+    }
+    
+    /// <summary>
+    /// Reproduce el sonido de clic de botón según la escena actual
+    /// </summary>
+    private void PlayButtonClickSound()
+    {
+        // Verificar si estamos en la escena del menú principal
+        string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.ToLower();
+        
+        if (currentScene.Contains("menu") || currentScene.Contains("main"))
+        {
+            // Estamos en el menú principal, usar MainMenuAudioManager
+            if (MainMenuAudioManager.Instance != null)
+            {
+                MainMenuAudioManager.Instance.PlayButtonClickSound();
+            }
+        }
+        else
+        {
+            // Estamos en el juego, verificar si hay DeathMenuAudio
+            DeathMenuAudio deathMenuAudio = FindObjectOfType<DeathMenuAudio>();
+            if (deathMenuAudio != null)
+            {
+                // Usar DeathMenuAudio si está disponible
+                deathMenuAudio.PlayButtonClickSound();
+            }
+            else if (GameAudioManager.Instance != null)
+            {
+                // Usar GameAudioManager como fallback
+                GameAudioManager.Instance.PlayCustomSound(GetButtonClickSound());
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Obtiene el sonido de clic de botón
+    /// </summary>
+    private AudioClip GetButtonClickSound()
+    {
+        // Si hay un sonido personalizado asignado, usarlo
+        if (buttonClickSound != null)
+        {
+            return buttonClickSound;
+        }
+        
+        // Si no hay sonido personalizado, usar el sonido generado del GameAudioManager
+        return null;
     }
 
     // Método alternativo sin parámetros para eventos
@@ -96,6 +150,8 @@ public class MenuButton : MonoBehaviour
         action = MenuAction.Restart;
         OnClick();
     }
+    
+
 
     // Método para ejecutar acción inmediatamente sin delay
     public void ExecuteImmediately()
@@ -121,6 +177,30 @@ public class MenuButton : MonoBehaviour
     {
         Debug.Log("Ejecutando acción: " + action);
         
+        // Detener música según la acción
+        switch (action)
+        {
+            case MenuAction.Play:
+                // Detener música del menú antes de ir al juego
+                if (MainMenuAudioManager.Instance != null)
+                {
+                    Debug.Log("Deteniendo música del menú");
+                    MainMenuAudioManager.Instance.StopMusic();
+                }
+                break;
+                
+            case MenuAction.MainMenu:
+            case MenuAction.Restart:
+                // Detener todo el audio del juego inmediatamente antes de volver al menú o reiniciar
+                if (GameAudioManager.Instance != null)
+                {
+                    Debug.Log("Deteniendo todo el audio del juego");
+                    GameAudioManager.Instance.StopAllAudio();
+                }
+                break;
+        }
+        
+        // Ejecutar la acción
         switch (action)
         {
             case MenuAction.Play:
@@ -153,4 +233,6 @@ public class MenuButton : MonoBehaviour
                 break;
         }
     }
+    
+
 }

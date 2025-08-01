@@ -5,8 +5,8 @@ using System.Collections;
 public class SectorManager : MonoBehaviour
 {
     public Color[] sectorColors;               // Colores para cada sector
-    public TextMeshProUGUI sectorText;         // Texto para mostrar solo el número de sector
-    public float transitionDuration = 2f;      // Tiempo de transición
+    public TextMeshProUGUI sectorText;         // Texto para mostrar solo el nï¿½mero de sector
+    public float transitionDuration = 2f;      // Tiempo de transiciï¿½n
 
     private int currentSector = 0;
     private Coroutine colorTransitionCoroutine;
@@ -23,6 +23,8 @@ public class SectorManager : MonoBehaviour
 
     void Start()
     {
+        // Iniciar con sector 0 (nivel inicial)
+        currentSector = 0;
         UpdateSkyboxTint(currentSector);
         UpdateSectorText(currentSector);
     }
@@ -36,6 +38,12 @@ public class SectorManager : MonoBehaviour
             StopCoroutine(colorTransitionCoroutine);
 
         colorTransitionCoroutine = StartCoroutine(TransitionSkyboxTint(sectorColors[currentSector]));
+        
+        // Cambiar mÃºsica al nuevo sector
+        if (GameAudioManager.Instance != null)
+        {
+            GameAudioManager.Instance.ChangeToSector(currentSector);
+        }
     }
 
     void UpdateSkyboxTint(int sectorIndex)

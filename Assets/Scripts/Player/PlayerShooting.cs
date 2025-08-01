@@ -59,7 +59,16 @@ public class PlayerShooting : MonoBehaviour
     void Shoot()
     {
         int bullets = Mathf.Clamp(powerupLevel, 1, 3);
+        
+        // Vibración para disparo
+        VibrationHelper.PlayShootVibration();
         float spread = 0.5f;
+
+        // Reproducir sonido de disparo
+        if (GameAudioManager.Instance != null)
+        {
+            GameAudioManager.Instance.PlayShootSound();
+        }
 
         for (int i = 0; i < bullets; i++)
         {

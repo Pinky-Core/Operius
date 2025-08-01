@@ -94,12 +94,30 @@ public class DeathMenu : MonoBehaviour
     // Llama este método para volver al menú principal
     public void LoadMainMenu()
     {
+        // Detener todo el audio del juego inmediatamente antes de volver al menú
+        if (GameAudioManager.Instance != null)
+        {
+            GameAudioManager.Instance.StopAllAudio();
+        }
+        
+        // Cargar escena inmediatamente
         SceneManager.LoadScene("MainMenu");
     }
 
     // Llama este método para reiniciar el nivel actual
     public void RestartLevel()
     {
+        // Detener todo el audio del juego inmediatamente antes de reiniciar
+        if (GameAudioManager.Instance != null)
+        {
+            GameAudioManager.Instance.StopAllAudio();
+        }
+        
+        // Reiniciar escena inmediatamente
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+    
+
+    
+
 }

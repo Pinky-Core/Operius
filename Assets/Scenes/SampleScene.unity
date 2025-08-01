@@ -761,6 +761,7 @@ GameObject:
   - component: {fileID: 609457028}
   - component: {fileID: 609457027}
   - component: {fileID: 609457026}
+  - component: {fileID: 609457029}
   m_Layer: 5
   m_Name: Restart
   m_TagString: Untagged
@@ -832,8 +833,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 693477854}
-        m_TargetAssemblyTypeName: DeathMenu, Assembly-CSharp
+      - m_Target: {fileID: 609457029}
+        m_TargetAssemblyTypeName: MenuButton, Assembly-CSharp
         m_MethodName: RestartLevel
         m_Mode: 1
         m_Arguments:
@@ -882,6 +883,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 609457024}
   m_CullTransparentMesh: 1
+--- !u!114 &609457029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609457024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d75a0a20771a5be4cb07ba44769699fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action: 7
+  screenAnimator: {fileID: 453490682}
+  delayBeforeAction: 1.2
+  buttonClickSound: {fileID: 8300000, guid: 0f27febf4378e9241b84a74f2f7f4bba, type: 3}
 --- !u!1 &658324748
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,6 +987,7 @@ GameObject:
   - component: {fileID: 693477852}
   - component: {fileID: 693477854}
   - component: {fileID: 693477856}
+  - component: {fileID: 693477857}
   m_Layer: 5
   m_Name: DeathPanel
   m_TagString: Untagged
@@ -1014,7 +1032,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.99215686}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.92941177}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1067,6 +1085,21 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &693477857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 693477850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8673c6934f688384d9c86408f6807378, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonClickSound: {fileID: 8300000, guid: a6873ca3f5e8a8c408425a4ff9815465, type: 3}
+  buttonHoverSound: {fileID: 0}
+  volume: 0.3
 --- !u!1 &694811106
 GameObject:
   m_ObjectHideFlags: 0
@@ -2159,6 +2192,66 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1138731334
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1138731336}
+  - component: {fileID: 1138731335}
+  m_Layer: 0
+  m_Name: MaterialCreator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1138731335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138731334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4ffde2bea198b4999c5164de85c986, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialNamePrefix: ShipMaterial_
+  shipColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 0, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0, b: 1, a: 1}
+  - {r: 1, g: 0.5, b: 0, a: 1}
+  metallic: 0.8
+  smoothness: 0.6
+  enableEmission: 1
+  emissionIntensity: 0.2
+  generateOnStart: 0
+  savePath: Assets/Materials/ShipMaterials/
+--- !u!4 &1138731336
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138731334}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 663.1582, y: 316.0779, z: -188.79765}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1170243972
 GameObject:
   m_ObjectHideFlags: 0
@@ -2489,7 +2582,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -34.897}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1087, y: 752}
+  m_AnchoredPosition: {x: -1014, y: 683}
   m_SizeDelta: {x: 100, y: 604}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1222039483
@@ -2670,6 +2763,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7172447293288164804, guid: 7114c7ae578861b488ec5593d40b4bfd, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7172447293288164804, guid: 7114c7ae578861b488ec5593d40b4bfd, type: 3}
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
@@ -2694,6 +2791,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1827775999915044006, guid: 7114c7ae578861b488ec5593d40b4bfd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2028546389}
+    - targetCorrespondingSourceObject: {fileID: 1827775999915044006, guid: 7114c7ae578861b488ec5593d40b4bfd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2028546394}
   m_SourcePrefab: {fileID: 100100000, guid: 7114c7ae578861b488ec5593d40b4bfd, type: 3}
 --- !u!1 &1289921336
 GameObject:
@@ -2744,13 +2844,16 @@ MonoBehaviour:
   zigzagCenter: {fileID: 2079921847}
   earlyEnemies:
   - {fileID: 5193345192245895029, guid: 4d34fa3f38845b4409b1de9619627649, type: 3}
-  midEnemies:
+  midEnemies: []
+  lateEnemies:
   - {fileID: 1819600232101861634, guid: f83d60aaeff80394bb3a2c9c73d5ec96, type: 3}
-  lateEnemies: []
-  meteoritePrefabs: []
-  meteoriteSpawnInterval: 5
+  meteoritePrefabs:
+  - {fileID: 2072049681736881588, guid: 443eb3a4c9e4a0f43b9c3e4398565cfa, type: 3}
+  - {fileID: 4469455477671938673, guid: ea150c8e6cc86a5479f8fafe26e4784d, type: 3}
+  - {fileID: 4736412691013234070, guid: e01025e35477c7a4a9af23ed8820ad77, type: 3}
+  meteoriteSpawnInterval: 7
   meteoriteSpawnRadius: 5
-  initialDelayMeteorites: 5
+  initialDelayMeteorites: 10
   bossPrefab: {fileID: 8101589881808577556, guid: 56d0b429633f2ae4b8434d55ad588ae8, type: 3}
   bossSpawnPoint: {fileID: 2079921847}
   bossHealthBarSlider: {fileID: 1045814271}
@@ -2784,8 +2887,8 @@ MonoBehaviour:
   spawnZMin: -40
   spawnZMax: -40
   initialDelay: 15
-  spawnInterval: 10
-  maxAdditionalDelay: 10
+  spawnInterval: 9
+  maxAdditionalDelay: 9
 --- !u!1 &1478355353
 GameObject:
   m_ObjectHideFlags: 0
@@ -2895,7 +2998,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -34.897}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1046, y: -734}
+  m_AnchoredPosition: {x: 1119, y: -803}
   m_SizeDelta: {x: 100, y: 604}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1626199272
@@ -3290,6 +3393,8 @@ GameObject:
   - component: {fileID: 1905781860}
   - component: {fileID: 1905781861}
   - component: {fileID: 1905781862}
+  - component: {fileID: 1905781863}
+  - component: {fileID: 1905781864}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3331,6 +3436,8 @@ MonoBehaviour:
     points: 5
   scoreText: {fileID: 1977792721}
   score: 0
+  pointsPerCoin: 100
+  autoConvertToCoins: 1
 --- !u!114 &1905781862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3350,6 +3457,53 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 0.11128998, a: 0}
   sectorText: {fileID: 1199814043}
   transitionDuration: 2
+--- !u!114 &1905781863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905781859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fe59cdee7d28004a8e47251f7d3f353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootSound: {fileID: 8300000, guid: 0f27febf4378e9241b84a74f2f7f4bba, type: 3}
+  deathSound: {fileID: 8300000, guid: 179de8a23becdb946aa24ae2ff321772, type: 3}
+  powerupCollectSound: {fileID: 8300000, guid: 68ca30c6c4c410b4ab44d1235c0ab43a, type: 3}
+  enemyDeathSound: {fileID: 8300000, guid: b0726995dd3dd9e4fa7f456bdba31bc9, type: 3}
+  gameOverSound: {fileID: 8300000, guid: f63ae3d90fae8e643ae6606557efc401, type: 3}
+  sfxSource: {fileID: 0}
+  sfxVolume: 0.09
+  useGeneratedSounds: 0
+  shootFrequency: 800
+  deathFrequency: 200
+  powerupFrequency: 1200
+  preventSoundOverlap: 0
+  minTimeBetweenSounds: 0.1
+--- !u!114 &1905781864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905781859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9befb1ef8b7ff584592d62cd392d57ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sectorMusicClips:
+  - {fileID: 8300000, guid: b705ce7d95c17f94fab01b23ac1f5289, type: 3}
+  - {fileID: 8300000, guid: b9ce5533d6c0f1747899b0ce28d1ed3d, type: 3}
+  - {fileID: 8300000, guid: f406f504d9863734c8a49b831f2538e8, type: 3}
+  - {fileID: 8300000, guid: 545eddc1c3bc3c04caa274b9e27fd780, type: 3}
+  musicSource: {fileID: 0}
+  musicVolume: 0.1
+  useCrossfade: 1
+  crossfadeDuration: 2
+  playMusicOnStart: 1
 --- !u!1 &1977792719
 GameObject:
   m_ObjectHideFlags: 0
@@ -3538,6 +3692,28 @@ MonoBehaviour:
   - {fileID: 1899959959}
   powerupDuration: 17
   canShoot: 1
+--- !u!64 &2028546394
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028546378}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 944696844918605244, guid: 0d0cfbe436b3777478410cea5f51b22e, type: 3}
 --- !u!1 &2035827938
 GameObject:
   m_ObjectHideFlags: 0
@@ -3749,6 +3925,7 @@ GameObject:
   - component: {fileID: 2097115983}
   - component: {fileID: 2097115982}
   - component: {fileID: 2097115981}
+  - component: {fileID: 2097115984}
   m_Layer: 5
   m_Name: Quit
   m_TagString: Untagged
@@ -3820,9 +3997,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 693477854}
-        m_TargetAssemblyTypeName: DeathMenu, Assembly-CSharp
-        m_MethodName: LoadMainMenu
+      - m_Target: {fileID: 2097115984}
+        m_TargetAssemblyTypeName: MenuButton, Assembly-CSharp
+        m_MethodName: GoToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3870,6 +4047,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2097115979}
   m_CullTransparentMesh: 1
+--- !u!114 &2097115984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097115979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d75a0a20771a5be4cb07ba44769699fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action: 6
+  screenAnimator: {fileID: 453490682}
+  delayBeforeAction: 1.2
+  buttonClickSound: {fileID: 8300000, guid: 0f27febf4378e9241b84a74f2f7f4bba, type: 3}
 --- !u!1001 &4732279916753176027
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3945,3 +4138,4 @@ SceneRoots:
   - {fileID: 771436690}
   - {fileID: 177669022}
   - {fileID: 4732279916753176027}
+  - {fileID: 1138731336}

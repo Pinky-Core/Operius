@@ -23,6 +23,20 @@ public class PlayerController : MonoBehaviour
     {
         if (SystemInfo.supportsGyroscope)
             Input.gyro.enabled = true;
+            
+        // Cargar sensibilidad del giroscopio desde las opciones
+        LoadGyroSensitivity();
+    }
+    
+    /// <summary>
+    /// Carga la sensibilidad del giroscopio desde OptionsManager
+    /// </summary>
+    private void LoadGyroSensitivity()
+    {
+        if (OptionsManager.Instance != null)
+        {
+            gyroSensitivity = OptionsManager.Instance.GetGyroSensitivity();
+        }
     }
 
     void Update()
@@ -62,8 +76,15 @@ public class PlayerController : MonoBehaviour
         {
             GetComponent<PlayerShooting>().CollectPowerup();
             Destroy(other.gameObject);
+            
+            // Vibración para powerup
+            VibrationHelper.PlayPowerupVibration();
         }
         else if (other.CompareTag("Enemy"))
+        {
+            StartCoroutine(Die());
+        }
+        else if (other.CompareTag("Asteroid"))
         {
             StartCoroutine(Die());
         }
@@ -75,12 +96,32 @@ public class PlayerController : MonoBehaviour
 
         GetComponent<PlayerShooting>().canShoot = false;
 
+        // Reproducir sonido de muerte
+        if (GameAudioManager.Instance != null)
+        {
+            GameAudioManager.Instance.PlayDeathSound();
+        }
+        
+        // Vibración para muerte
+        VibrationHelper.PlayDeathVibration();
+
         // Guardar highscore
         int score = ScoreManager.Instance != null ? ScoreManager.Instance.score : 0;
         if (score > PlayerPrefs.GetInt("HighScore", 0))
         {
             PlayerPrefs.SetInt("HighScore", score);
             PlayerPrefs.Save();
+        }
+        
+        // Convertir puntos restantes a monedas al morir
+        if (score > 0)
+        {
+            // Convertir puntos finales a monedas
+            int currentCoins = PlayerPrefs.GetInt("PlayerCoins", 0);
+            int newCoins = score / 100; // 100 puntos = 1 moneda
+            PlayerPrefs.SetInt("PlayerCoins", currentCoins + newCoins);
+            PlayerPrefs.Save();
+            Debug.Log($"Jugador muerto - Convertidos {score} puntos finales a {newCoins} monedas de la tienda");
         }
 
         // Instanciar partículas de muerte
@@ -97,6 +138,21 @@ public class PlayerController : MonoBehaviour
 
         // Esperar 3 segundos
         yield return new WaitForSeconds(3f);
+
+        // Reproducir sonido de game over
+        if (GameAudioManager.Instance != null)
+        {
+            GameAudioManager.Instance.PlayGameOverSound();
+        }
+        
+        // Vibración para game over
+        VibrationHelper.PlayGameOverVibration();
+
+        // Detener música del juego antes de mostrar game over
+        if (GameAudioManager.Instance != null)
+        {
+            GameAudioManager.Instance.StopGameMusic();
+        }
 
         // Mostrar panel de Game Over
         if (gameOverPanel != null)

@@ -269,6 +269,12 @@ public class RadialMenu : MonoBehaviour
         {
             Debug.Log("Delta supera el threshold, cambiando opción");
             
+            // Reproducir sonido de rotación del menú
+            if (MainMenuAudioManager.Instance != null)
+            {
+                MainMenuAudioManager.Instance.PlayMenuRotateSound();
+            }
+            
             // Determinar dirección (1 = siguiente, -1 = anterior)
             int direction = delta > 0 ? 1 : -1;
             
