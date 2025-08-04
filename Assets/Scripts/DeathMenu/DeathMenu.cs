@@ -31,6 +31,16 @@ public class DeathMenu : MonoBehaviour
     {
         // Obtener valores finales
         int finalCurrentScore = ScoreManager.Instance != null ? ScoreManager.Instance.score : 0;
+        
+        // Verificar y actualizar highscore si es necesario
+        int currentHighscore = PlayerPrefs.GetInt("HighScore", 0);
+        if (finalCurrentScore > currentHighscore)
+        {
+            PlayerPrefs.SetInt("HighScore", finalCurrentScore);
+            PlayerPrefs.Save();
+            Debug.Log($"Nuevo highscore alcanzado: {finalCurrentScore} (anterior: {currentHighscore})");
+        }
+        
         int finalHighscore = PlayerPrefs.GetInt("HighScore", 0);
 
         // Animar score actual
@@ -74,6 +84,15 @@ public class DeathMenu : MonoBehaviour
         {
             currentScoreText.text = "Score: " + currentScore.ToString();
             Debug.Log("Score actual: " + currentScore);
+        }
+
+        // Verificar y actualizar highscore si es necesario
+        int currentHighscore = PlayerPrefs.GetInt("HighScore", 0);
+        if (currentScore > currentHighscore)
+        {
+            PlayerPrefs.SetInt("HighScore", currentScore);
+            PlayerPrefs.Save();
+            Debug.Log($"Nuevo highscore alcanzado: {currentScore} (anterior: {currentHighscore})");
         }
 
         // Mostrar highscore
